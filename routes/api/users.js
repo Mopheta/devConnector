@@ -80,7 +80,7 @@ router.post(
 
       jwt.sign(
         payload,
-        config.get('jwtSecret'),
+        config.get('jwtSecret'), //jwt.io
         { expiresIn: 360000 }, //Tiempo que va a durar la session abierta
         (err, token) => {
           //Si existe algun error.
