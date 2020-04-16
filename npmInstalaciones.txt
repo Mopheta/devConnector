@@ -5,3 +5,24 @@ npm i -D nodemon concurrently
 para correr el proyecto:
     npm run server
     Si se muere fijarse el ip en mongoDB
+
+
+
+
+
+
+
+
+
+1- Crear el modelo
+const mongoose = require('mongoose')
+
+const Profile = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+        default: false
+    },
+})
+
+module.exports = Profile = mongoose.model('profile', ProfileSchema);
