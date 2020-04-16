@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 //vamos a crear una referencia al usuario
-const Profile = new mongoose.Schema({
+const ProfileSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user', //referencia al user model
