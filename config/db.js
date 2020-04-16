@@ -6,7 +6,9 @@ const db = config.get('mongoURI'); //lo trae de default file
 const connectDB = async () => {
   try {
     await mongoose.connect(db, {
-      useNewUrlParser: true, //Si no te da un error de consola debido a un strin deprecated
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useUnifiedTopology: true, //Si no te da un error de consola debido a un strin deprecated
     });
 
     console.log('Kevin -- MongoDB connected... yeah');

@@ -4,3 +4,4 @@ npm i -D nodemon concurrently
 
 para correr el proyecto:
     npm run server
+    Si se muere fijarse el ip en mongoDB
