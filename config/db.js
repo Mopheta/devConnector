@@ -9,6 +9,7 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useCreateIndex: true,
       useUnifiedTopology: true, //Si no te da un error de consola debido a un strin deprecated
+      useFindAndModify: false,
     });
 
     console.log('Kevin -- MongoDB connected... yeah');

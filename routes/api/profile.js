@@ -116,4 +116,49 @@ router.post(
   }
 );
 
+//NAME: GET ALL PROFILES
+//@route  GET api/profile
+//@desc   Get all profiles
+//@access Public
+
+router.get('/', async (req, res) => {
+  try {
+    const profiles = await Profile.find().populate('user', ['name', 'avatar']);
+    res.json(profiles);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+//NAME: GET PROFILE BY USER ID
+//@route  GET api/profile/user/:user_id
+//@desc   Get profile by user ID
+//@access Public
+
+router.get('/user/:user_id', async (req, res) => {
+  try {
+    //Se utiliza params porque el id viene de la URL
+    const profile = await Profile.findOne({
+      user: req.params.user_id,
+    }).populate('user', ['name', 'avatar']);
+
+    if (!profile) {
+      return res.status(400).json({ msg: 'Profile not found' });
+    }
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    //Kind para ver si el error es del tipo OBJECTID
+    //esto pasa porque si pasamos un id erroeno cae en el metodo de !profile
+    //si el id no tiene el formato correcto cae en el catch, lo cual mostraria un error del server
+    //pero no lo es debido a que el error esta en el dato.
+    if (err.kind == 'ObjectId') {
+      return res.status(400).json({ msg: 'Profile not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
