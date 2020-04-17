@@ -32,7 +32,7 @@ const ProfileSchema = new mongoose.Schema({
     //Se va a trabajar con la api de github
     type: String,
   },
-  experiences: [
+  experience: [
     {
       title: {
         type: String,

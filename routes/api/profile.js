@@ -8,6 +8,7 @@ const { check, validationResult } = require('express-validator/check');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 
+//NAME: GET a Profile, utilizando el id que viene del token
 //@route  GET api/profile/me
 //@desc   Get current users profile
 //@access Private - Para proteger, debemos importar el auth, y pasarlo como
@@ -29,6 +30,7 @@ router.get('/me', auth, async (req, res) => {
   }
 });
 
+//NAME: CREATE A PROFILE
 //@route  POST api/profile
 //@desc   Post create or update a user profile
 //@access Private
@@ -183,5 +185,62 @@ router.delete('/', auth, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+//NAME: PUT/ ADD experience fields to a Pofile. Se utiliza porque se estaria 'updateando' una parte del perfil
+//@route  PUT api/profile/experience
+//@desc   ADD profile experience
+//@access private - tenemos acceso al token auth middleware
+
+router.put(
+  '/experience',
+  [
+    auth,
+    [
+      check('title', 'Title is required').not().isEmpty(),
+      check('company', 'Company is required').not().isEmpty(),
+      check('from', 'From date is required').not().isEmpty(),
+    ],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const {
+      title,
+      company,
+      location,
+      from,
+      to,
+      current,
+      description,
+    } = req.body; //me viene de lo que llene en el formulario
+
+    const newExp = {
+      title,
+      company,
+      location,
+      from,
+      to,
+      current,
+      description,
+    };
+
+    try {
+      //Profile model
+      const profile = await Profile.findOne({ user: req.user.id });
+      //unshift se usa para poner lo ultimo, mas arriba. contrario de push que va a lo ultimo
+      profile.experience.unshift(newExp);
+
+      await profile.save();
+
+      res.json(profile);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
 
 module.exports = router;
