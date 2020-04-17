@@ -148,6 +148,7 @@ router.get('/user/:user_id', async (req, res) => {
     }
 
     res.json(profile);
+    //
   } catch (err) {
     console.error(err.message);
     //Kind para ver si el error es del tipo OBJECTID
@@ -157,6 +158,28 @@ router.get('/user/:user_id', async (req, res) => {
     if (err.kind == 'ObjectId') {
       return res.status(400).json({ msg: 'Profile not found' });
     }
+    res.status(500).send('Server Error');
+  }
+});
+
+//NAME: DELETE a Pofile
+//@route  DELETE api/profile
+//@desc   Delete profile, user & posts
+//@access private - tenemos acceso al token
+
+router.delete('/', auth, async (req, res) => {
+  try {
+    //@todo - remove users posts
+
+    //Remove Profile
+    await Profile.findOneAndRemove({ user: req.user.id });
+
+    //Remove User
+    await User.findOneAndRemove({ _id: req.user.id }); //match de id's
+
+    res.json({ msg: 'User deleted' });
+  } catch (err) {
+    console.error(err.message);
     res.status(500).send('Server Error');
   }
 });

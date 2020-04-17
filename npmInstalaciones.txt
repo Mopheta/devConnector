@@ -28,3 +28,23 @@ const Profile = new mongoose.Schema({
 module.exports = Profile = mongoose.model('profile', ProfileSchema);
 
 2- Create routes api
+
+3- Definis la firma de la peticion
+
+//NAME: GET PROFILE BY USER ID
+//@route  GET api/profile/user/:user_id
+//@desc   Get profile by user ID
+//@access Public
+
+4- Escribis route.Accion
+ejemplo:
+route.get('/', async (req,res) => {
+   try {
+        const profiles = await Profile.find().populate('user'. ['name', 'avatar']);
+        return res.json(profiles)
+   } catch (err) {
+       console.error(err.message);
+       res.status(500).send('Server Error');
+   }
+
+})
