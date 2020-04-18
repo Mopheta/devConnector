@@ -268,4 +268,76 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
   }
 });
 
+//NAME: PUT/ ADD EDUCATION fields to a Pofile.
+//@route  PUT api/profile/education
+//@desc   ADD profile education fields //school, degree, fieldofstudy, from required
+//@access private - tenemos acceso al token auth middleware
+
+router.put(
+  '/education',
+  [
+    auth,
+    [
+      check('school', 'School is required').not().isEmpty(),
+      check('degree', 'Degree is required').not().isEmpty(),
+      check('fieldofstudy', 'Field of study is required').not().isEmpty(),
+      check('from', 'From date is required').not().isEmpty(),
+    ],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return status(400).json({ errors: errors.array() });
+    }
+
+    const { school, degree, fieldofstudy, from, to, description } = req.body;
+
+    const newEducation = {
+      school,
+      degree,
+      fieldofstudy,
+      from,
+      to,
+      description,
+    };
+
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
+
+      profile.education.unshift(newEducation);
+
+      await profile.save();
+
+      res.json(profile);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+//NAME: DELETE a Education []
+//@route  DELETE api/profile/education/:edu_id
+//@desc   Delete education for a profile
+//@access private - tenemos acceso al token
+
+router.delete('/education/:edu_id', auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    const indexEdu = profile.education
+      .map((edu) => edu.id)
+      .indexOf(req.params.edu_id);
+
+    profile.education.splice(indexEdu, 1);
+
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
