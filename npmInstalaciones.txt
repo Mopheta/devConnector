@@ -48,3 +48,13 @@ route.get('/', async (req,res) => {
    }
 
 })
+
+5- Si es un post
+validar con check segundo parametro [atuh, [
+    check('title', "Title is required)
+]]
+
+const errors = validationResult(req)
+if(!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+}
