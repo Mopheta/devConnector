@@ -1,0 +1,11 @@
+React shortcut: racf functionalComponent
+
+mongoose:
+    Biblioteca de JS (escrita en node), que permite definir esquemas con datos fuertemente typados
+    Una vez se define el Schema, mongoose le permite crear un modelo basado en un esquema 
+    especifico
+
+
+Models: 
+    Van a representar a una entidad de la base de datos y van a representar
+    a un unico registro o documento de nuestra base de datos

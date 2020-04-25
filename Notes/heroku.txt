@@ -1,0 +1,25 @@
+1- Creamos un archivo en config production.json
+   Pusimos la misma info que contiene el archivo default.json
+
+2- En el archivo .gitignore agregamos config/default.json ya que no queremos enviar esto a production
+
+3- En package.json agregamos una nueva dependencia, indicando npm install y build --prefix, para que se instale en el cliente
+     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+
+
+4- en server.js
+    commentamos la linea:  app.get('/', (req, res) => res.send('API Running')); //para testear con postman
+
+    agregamos required: const path = require('path');
+
+bajo las rutas: 
+
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static('client/build'));
+
+  //Serve
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}

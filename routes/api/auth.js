@@ -30,6 +30,7 @@ router.get('/', auth, async (req, res) => {
 
 module.exports = router;
 
+//LOGIN
 //@route  POST api/auth
 //@desc   Authenticate user & get token
 //@access Public - asi puedo obetener el token
@@ -87,8 +88,8 @@ router.post(
         }
       );
     } catch (err) {
-      console.errpr(err.message);
-      res.status(500).send('Server error --');
+      console.error(err.message);
+      res.status(500).send('Server Error');
     }
   }
 );

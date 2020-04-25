@@ -62,3 +62,42 @@ const errors = validationResult(req)
 if(!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() })
 }
+
+
+INSTALACIONES EN EL cliente
+
+npm install axios react-router-dom redux react-redux redux-thunk redux-devtools-extension moment react-moment
+
+
+//EN PACKAGE.json del proyecto
+1- creamos un nuevo script para correr el cliente sin tener que navegar a dicha carpeta
+2- dev script - unico para correr el front end y el sever de manera conjunta
+    utilizando  npm run dev
+
+//En package.json del cliente
+1- create proxy, para evitar tener que poner http://.... 
+    en cada llamada axios axios.get("http....") y solo utilziar
+    axios.get('/api/comments')
+
+
+
+
+Ejemplo de hacer una llamada al backend en Registrar usuario
+      //   const newUser = {
+      //     name,
+      //     email,
+      //     password,
+      //     password2,
+      //   };
+      //   try {
+      //     const config = {
+      //       headers: {
+      //         'Content-Type': 'application/json',
+      //       },
+      //     };
+      //     const body = JSON.stringify(newUser);
+      //     const res = await axios.post('/api/users', body, config);
+      //     console.log(res.data);
+      //   } catch (err) {
+      //     console.log(err.message);
+      //   }
